@@ -1,5 +1,5 @@
 import React from "react";
-import { MovieContainer } from '../styles/movies.styles';
+import { MovieContainer, Movie } from '../styles/movies.styles';
 
 
 // Poster: "https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg"
@@ -18,23 +18,27 @@ const Movies = ({movies}) => {
   if (parsed.length === 0) {
     return <div>..loading</div>
   } else {
-    return parsed.map(movie => {
-      const poster = movie.Poster === "N/A" ? DEFAULT_PLACEHOLDER_IMAGE : movie.Poster;
-      return (
-        <MovieContainer>
-          <h2>{movie.Title}</h2>
-          <div>
-            <img
-              width="200"
-              alt={`The movie titled: ${movie.Title}`}
-              src={poster}
-            />
-          </div>
-          <p>({movie.Year})</p>
-      </MovieContainer>
-    )
-    })
-  }
-}
+    return (
+      <MovieContainer>
+        { parsed.map(movie => {
+          const poster = movie.Poster === "N/A" ? DEFAULT_PLACEHOLDER_IMAGE : movie.Poster;
+          return (
+            <Movie>
+              <h2>{movie.Title}</h2>
+              <div>
+                <img
+                  width="200"
+                  alt={`The movie titled: ${movie.Title}`}
+                  src={poster}
+                />
+              </div>
+              <p>({movie.Year})</p>
+              </Movie>
+            )
+          })
+        }
+        </MovieContainer>
+    )}
+};
 
 export default Movies;

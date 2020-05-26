@@ -20,7 +20,6 @@ const Header = styled.header`
   text-transform: uppercase;
   border: 2px solid blue; 
   display: block;
-  font-size: 1rem;
 `;
 
 
