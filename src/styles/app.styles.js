@@ -5,6 +5,12 @@ const GlobalStyle = createGlobalStyle`
   html {
     font-size: 62.5%;
   }
+
+  body {
+    &.modal-open {
+      overflow: hidden;
+    }
+  }
 `;
 
 const HeaderContainer = styled.header`
