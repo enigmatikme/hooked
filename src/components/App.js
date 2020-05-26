@@ -1,64 +1,68 @@
-import React, { useState, useEffect } from "react";
-import "../App.css";
-import Header from "./Header";
-import Movie from "./Movie";
-import Search from "./Search";
+import React, { useReducer, useState, useEffect } from 'react';
+import Header from './Header';
+import Movies from './Movies';
+import Search from './Search';
+import { GlobalStyle, HeaderContainer } from '../styles/app.styles';
 
+import axios from 'axios';
 
-const MOVIE_API_URL = "https://www.omdbapi.com/?s=man&apikey=4a3b711b"; // you should replace this with yours
+const MOVIE_API_URL = "https://www.omdbapi.com/?s=man&apikey=4a3b711b";
 
+const apiSerializer = (query) => {
+  let api;
+  if (query.trim() === "") {
+    //will return all results 
+    api = MOVIE_API_URL;
+  } else {
+    //will search by title
+    api = `https://www.omdbapi.com/?t=${query}&apikey=4a3b711b`;
+  }
+  return api;
+}
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
-
-    useEffect(() => {
-    fetch(MOVIE_API_URL)
-      .then(response => response.json())
-      .then(jsonResponse => {
-        setMovies(jsonResponse.Search);
-        setLoading(false);
-      });
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    axios.get(`${MOVIE_API_URL}`)
+    .then(success => {
+      setMovies(success.data.Search);
+      setLoading(false);
+    })
+    .catch(error => {
+      console.error("ERROR", error)
+    })
   }, []);
 
-    const search = searchValue => {
-    setLoading(true);
-    setErrorMessage(null);
+  const search = (e, q) => {
+    e.preventDefault();
+    let api = apiSerializer(q);
+    console.log(`${api}`)
+    axios.get(api)
+      .then(success => {
+        console.log("success", success)
+        setMovies(success.data)
+      })
+      .catch(error => {
+        console.log("error", error)
+      })
+  } 
 
-    fetch(`https://www.omdbapi.com/?s=${searchValue}&apikey=4a3b711b`)
-      .then(response => response.json())
-      .then(jsonResponse => {
-        if (jsonResponse.Response === "True") {
-          setMovies(jsonResponse.Search);
-          setLoading(false);
-        } else {
-          setErrorMessage(jsonResponse.Error);
-          setLoading(false);
-        }
-      });
-  	};
+  const handleSubmit = (e, query) => {
+    search(e, query);
+  }
 
-    
-    return (
-     <div className="App">
-      <Header text="HOOKED" />
-      <Search search={search} />
-      <p className="App-intro">Sharing a few of our favourite movies</p>
-      <div className="movies">
-        {loading && !errorMessage ? (
-         <span>loading...</span>
-         ) : errorMessage ? (
-          <div className="errorMessage">{errorMessage}</div>
-        ) : (
-          movies.map((movie, index) => (
-            <Movie key={`${index}-${movie.Title}`} movie={movie} />
-          ))
-        )}
-      </div>
+  return (
+    <div>
+    <GlobalStyle/>
+      <Header text="hooked" className="header" />
+      <Search search={search} handleSubmit={handleSubmit}/>
+      { 
+        !loading ? <Movies className="movies" movies={movies} /> : <div>...Loading </div>
+      }
     </div>
-  );
-};
-
+  )
+}
 
 export default App;
