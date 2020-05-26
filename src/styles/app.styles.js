@@ -16,11 +16,4 @@ const HeaderContainer = styled.header`
   margin-bottom: 2rem;
 `;
 
-const Header = styled.header`
-  text-transform: uppercase;
-  border: 2px solid blue; 
-  display: block;
-`;
-
-
-export { GlobalStyle, HeaderContainer, Header };
+export { GlobalStyle, HeaderContainer, };

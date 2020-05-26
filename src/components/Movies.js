@@ -25,7 +25,7 @@ const Movies = ({movies}) => {
           return (
             <Movie>
               <h2>{movie.Title}</h2>
-              <div>
+              <div className="img__container" >
                 <img
                   width="200"
                   alt={`The movie titled: ${movie.Title}`}

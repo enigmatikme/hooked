@@ -5,7 +5,6 @@ const Form = styled.div`
   display: flex;
   justify-content: center;
   
-
   .form__group {
     margin-right: .5rem;
   }
