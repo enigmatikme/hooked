@@ -30,7 +30,7 @@ const ModalContainer = styled.div`
 
     .modal__content--right {
       margin: 2.5rem;
-      width: 55rem;
+      width: 80rem;
 
       h2 {
         font-size: 4rem;
@@ -53,7 +53,7 @@ const ModalContainer = styled.div`
         &:hover {
           color: red;
         }
-    }
+      }
 
     .modal__container--details {
       font-size: 2rem;
